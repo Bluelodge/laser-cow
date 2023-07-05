@@ -12,7 +12,6 @@ public class MainMenu : MonoBehaviour
 
         // Load Level 1
         SceneManager.LoadScene("Scenes/Level_1");
-        PauseMenu.pausedGame = false;
     }
 
     // Exit Game

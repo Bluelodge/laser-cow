@@ -8,6 +8,6 @@ public class DestroyTarget : MonoBehaviour
     void OnTriggerEnter(Collider target)
     {
         Destroy(target.gameObject);
-        Debug.Log("Some target was destroy");
+        Debug.Log($"Target {target.gameObject.tag} was destroy");
     }
 }

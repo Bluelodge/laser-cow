@@ -38,8 +38,8 @@ public class Lasergun : MonoBehaviour
 
     void Update()
     {
-        // Move after countdown gets to zero
-        if (CountdownTimer.startGame == true)
+        // Move on running game
+        if (GameController.pausedGame == false && GameController.finishedGame == false)
         {
             // Get movement
             fpsCamRotation.x += Input.GetAxisRaw("Mouse X") * moveSensi * Time.deltaTime;
@@ -56,15 +56,12 @@ public class Lasergun : MonoBehaviour
             screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
 
             // Shoot on left click and unpaused game
-            if (Input.GetButtonDown("Fire1") && PauseMenu.pausedGame == false)
+            if (Input.GetButtonDown("Fire1") && GameController.pausedGame == false)
             {
-                // Activate laser
-                laserShoot.enabled = true;
-
-                // Shoot effect
+                // Shoot charging effect
                 vfxChargingParticle.transform.localScale = shootingParticleSize;
 
-                Shoot();
+                ShootLaser();
             }
             else
             {
@@ -78,7 +75,7 @@ public class Lasergun : MonoBehaviour
     }
 
     // Shoot laser
-    void Shoot()
+    void ShootLaser()
     {
         // Hit goal
         RaycastHit hit;
@@ -87,7 +84,7 @@ public class Lasergun : MonoBehaviour
         Ray ray = fpsCam.ScreenPointToRay(screenCenterPoint);
 
         // Ray, put info inside raycast
-        if (Physics.Raycast(ray, out hit) && PauseMenu.pausedGame == false)
+        if (Physics.Raycast(ray, out hit) && GameController.pausedGame == false)
         {
             // Activate laser
             laserShoot.enabled = true;
@@ -99,12 +96,15 @@ public class Lasergun : MonoBehaviour
             // Points and Damage
             if (hit.transform.tag == "Cow")
             {
-                cowTarget.playerPoints("plus");
                 cowTarget.HitCow(hit.collider.gameObject);
+
+                GameController.cows++;
+                ScoreController.Instance.AddScore();
             }
             else if (hit.transform.tag == "Ovni")
             {
-                ovniTarget.playerPoints("subtract");
+                GameController.ovnis++;
+                ScoreController.Instance.SubtractScore();
                 ovniTarget.HitOvni(hit.collider.gameObject);
             }
             else
