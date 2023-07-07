@@ -16,6 +16,7 @@ public class Lasergun : MonoBehaviour
     public Target ovniTarget;
 
     [Header("Effects")]
+    public AudioSource sfxShootingLaser;
     public ParticleSystem vfxChargingParticle;
     public ParticleSystem vfxLaserMarkParticle;
 
@@ -60,6 +61,9 @@ public class Lasergun : MonoBehaviour
             {
                 // Shoot charging effect
                 vfxChargingParticle.transform.localScale = shootingParticleSize;
+
+                //Shoot soundeffect
+                sfxShootingLaser.Play();
 
                 ShootLaser();
             }
