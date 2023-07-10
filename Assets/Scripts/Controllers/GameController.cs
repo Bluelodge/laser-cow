@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour
     public GameObject winCanvas;
     public GameObject pauseCanvas;
 
+    [Header("Sound Effects")]
+    public AudioSource sfxBackgroundSound;
+    public AudioSource sfxWin;
+
     public static bool pausedGame = true;
     public static bool finishedGame = false;
 
@@ -40,6 +44,7 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1f;
         cows = 0;
         ovnis = 0;
+
         // Lock mouse
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -50,6 +55,12 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
+        // Check amount of cows
+        if (cows >= 30)
+        {
+            StartCoroutine(WinGame(ScoreController.score));
+        }
+
         // Show Pause menu except on win
         if (Input.GetKey(KeyCode.Space) && finishedGame == false)
         {
@@ -109,6 +120,9 @@ public class GameController : MonoBehaviour
 
         // Enable Pause Menu Canvas
         pauseCanvas.SetActive(true);
+
+        // Pause backgorund noise
+        sfxBackgroundSound.Pause();
     }
 
     // Continue mechanics
@@ -123,11 +137,19 @@ public class GameController : MonoBehaviour
 
         // Disable Pause Menu Canvas
         pauseCanvas.SetActive(false);
+
+        // Unpause background noise
+        sfxBackgroundSound.UnPause();
     }
 
     // Stop mechanics and show info
-    public void WinGame(int score)
+    public IEnumerator WinGame(int score)
     {
+        // Stop background sound
+        sfxBackgroundSound.Stop();
+
+        yield return new WaitForSeconds(0.5f);
+
         // Stop time
         pausedGame = true;
         finishedGame = true;
@@ -138,6 +160,9 @@ public class GameController : MonoBehaviour
 
         // Enable Winner Canvas
         winCanvas.SetActive(true);
+
+        // Play win sound effect
+        sfxWin.Play();
 
         // Get statistics
         finalScore = score;

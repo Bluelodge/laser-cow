@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.WebSockets;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,8 @@ public class ScoreController : MonoBehaviour
     public Text scoreText;
     public GameObject gameCanvas;
 
-    private int score;
+    public static int score = 0;
+
     private int cowPoints = 20;
     private int ovniPoints = 20;
 
@@ -24,6 +26,11 @@ public class ScoreController : MonoBehaviour
         }
 
         Instance = this;
+    }
+
+    private void Start()
+    {
+        score = 0;
     }
 
     public void ShowScoreCanvas()
@@ -43,9 +50,9 @@ public class ScoreController : MonoBehaviour
         scoreText.text = score.ToString();
 
         // Check for maximum score
-        if (score >= 100)
+        if (score >= 500)
         {
-            GameController.Instance.WinGame(score);
+            StartCoroutine(GameController.Instance.WinGame(score));
         }
     }
 
