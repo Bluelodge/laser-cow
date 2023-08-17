@@ -2,7 +2,7 @@
 
 ###  Intergalactic Fest's Game of the Year
 
-![LaserCowPreview](https://github.com/Bluelodge/laser-cow/assets/79164403/c3bee408-1376-426f-a9ad-12b315a564ee)
+![LaserCowGamePreview](https://github.com/Bluelodge/laser-cow/assets/79164403/5db923c9-89b1-4de9-b53b-9c49d47e95b9)
 
 ### How to play?
 
